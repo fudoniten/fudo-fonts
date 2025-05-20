@@ -1,4 +1,4 @@
-{ config, lib, pkgs, stdenv, coreutils, ... }:
+{ config, lib, pkgs, stdenv, coreutils, unzip, ... }:
 
 {
   oxanium = stdenv.mkDerivation {
@@ -6,10 +6,14 @@
     version = "1.0";
     src = ./fonts/Oxanium.zip;
 
+    buildInputs = [ coreutils unzip ];
+    nativeBuildInputs = [ coreutils unzip ];
+
     installPhase = ''
-      ${coreutils}/bin/mkdir -p $out/share/fonts/truetype/oxanium
-      ${coreutils}/bin/cp -r Oxanium-VariableFont_wght.ttf $out/share/fonts/truetype/oxanium
-      ${coreutils}/bin/cp -r static/*.ttf $out/share/fonts/truetype/oxanium
+      unzip $src
+      mkdir -p $out/share/fonts/truetype/oxanium
+      cp -r Oxanium-VariableFont_wght.ttf $out/share/fonts/truetype/oxanium
+      cp -r static/*.ttf $out/share/fonts/truetype/oxanium
     '';
   };
 }
