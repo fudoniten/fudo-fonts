@@ -1,4 +1,4 @@
-{ stdenv, stdenvNoCC, python3, oxanium-src, nordwand-mono-src, ... }:
+{ lib, stdenv, stdenvNoCC, python3, oxanium-src, nordwand-mono-src, ... }:
 
 {
   oxanium = stdenvNoCC.mkDerivation {
@@ -26,7 +26,12 @@
           fonttools
           numpy
           skia-pathops
-          ttfautohint-py
+          # nixpkgs 24.11 hardcodes the Linux library name; use the macOS one.
+          (ttfautohint-py.overridePythonAttrs (old:
+            lib.optionalAttrs stdenv.hostPlatform.isDarwin {
+              postPatch = builtins.replaceStrings [ "libttfautohint.so" ]
+                [ "libttfautohint.dylib" ] old.postPatch;
+            }))
           ufolib2
         ]))
     ];
