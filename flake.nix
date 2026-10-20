@@ -41,5 +41,10 @@
             config.nixpkgs.overlays = [ self.overlays.default ];
           };
         };
+
+        homeManagerModules = rec {
+          default = fudoFonts;
+          fudoFonts = import ./hm-module.nix { inherit self; };
+        };
       };
 }
