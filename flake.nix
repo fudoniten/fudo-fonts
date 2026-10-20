@@ -15,7 +15,7 @@
           default = fudoFonts;
           fudoFonts = final: prev:
             let fonts = self.packages."${prev.system}";
-            in { inherit (fonts) oxanium; };
+            in { inherit (fonts) oxanium nordwand-mono; };
         };
 
         nixosModules = rec {
