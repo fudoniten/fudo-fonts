@@ -7,5 +7,5 @@ in {
     enable = mkEnableOption "Enable Fudo font collection.";
   };
 
-  config = mkIf cfg.enable { fonts.packages = with pkgs; [ oxanium ]; };
+  config = mkIf cfg.enable { fonts.packages = with pkgs; [ oxanium nordwand-mono ]; };
 }
