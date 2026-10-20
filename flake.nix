@@ -5,12 +5,27 @@
     nixpkgs.url = "nixpkgs/nixos-24.11";
 
     utils.url = "github:numtide/flake-utils";
+
+    oxanium = {
+      url = "github:sevmeyer/oxanium/2.000";
+      flake = false;
+    };
+
+    nordwand-mono = {
+      url = "github:tywr/Nordwand-Mono/1.3.1";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, utils, ... }:
+  outputs = { self, nixpkgs, utils, oxanium, nordwand-mono, ... }:
     utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages."${system}";
-      in { packages = pkgs.callPackage ./fonts.nix { }; }) // {
+      in {
+        packages = pkgs.callPackage ./fonts.nix {
+          oxanium-src = oxanium;
+          nordwand-mono-src = nordwand-mono;
+        };
+      }) // {
         overlays = rec {
           default = fudoFonts;
           fudoFonts = final: prev:
